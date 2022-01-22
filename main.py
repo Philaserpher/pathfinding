@@ -3,6 +3,7 @@ from node import Node
 from a_star import a_star_algorithm
 
 SIZE = 1000
+ROWS = 50
 WINDOW = pygame.display.set_mode((SIZE, SIZE))
 pygame.display.set_caption("Maze solver")
 
@@ -57,9 +58,8 @@ def click_cube(position, rows, size):
     return row, column
 
 
-def main(window, size):
-    ROWS = 50
-    grid = generate_grid(ROWS, size)
+def main(window, size, rows):
+    grid = generate_grid(rows, size)
 
     start = None
     end = None
@@ -68,7 +68,7 @@ def main(window, size):
     started = False
 
     while run:
-        draw(window, grid, ROWS, size)
+        draw(window, grid, rows, size)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -78,7 +78,7 @@ def main(window, size):
 
             if pygame.mouse.get_pressed()[0]:
                 position = pygame.mouse.get_pos()
-                row, column = click_cube(position, ROWS, size)
+                row, column = click_cube(position, rows, size)
                 node = grid[row][column]
                 if not start and node != end:
                     start = node
@@ -90,7 +90,7 @@ def main(window, size):
                     node.set_wall()
             elif pygame.mouse.get_pressed()[2]:
                 position = pygame.mouse.get_pos()
-                row, column = click_cube(position, ROWS, size)
+                row, column = click_cube(position, rows, size)
                 node = grid[row][column]
                 node.reset()
 
@@ -105,15 +105,16 @@ def main(window, size):
                         for node in row:
                             node.update_neighbours(grid)
 
-                    a_star_algorithm(lambda: draw(window, grid, ROWS, size),
+                    a_star_algorithm(lambda: draw(window, grid, rows, size),
                                      grid, start, end)
 
                 if event.key == pygame.K_c:
                     start = None
                     end = None
-                    grid = generate_grid(ROWS, size)
+                    grid = generate_grid(rows, size)
 
     pygame.quit()
 
 
-main(WINDOW, SIZE)
+if __name__ == "__main__":
+    main(WINDOW, SIZE, ROWS)
