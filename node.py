@@ -41,6 +41,9 @@ class Node:
     def is_end(self):
         return self.colour == ORANGE
 
+    def is_empty(self):
+        return self.colour == WHITE
+
     def reset(self):
         self.colour = WHITE
 

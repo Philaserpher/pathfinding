@@ -4,7 +4,7 @@ import random
 
 
 def generate_maze(grid, rows, size):
-    cells = []
+    cells_pos = []
 
     for row in grid:
         for node in row:
@@ -13,15 +13,43 @@ def generate_maze(grid, rows, size):
            random.randint(1, (rows-2)/2)*2-1)
     node = grid[pos[0]][pos[1]]
     node.reset()
-    cells.append(node)
-    for i in range(0, 10):
-        node = get_neighbour(pos)
+    cells_pos.append(pos)
+    while cells_pos:
+        print(cells_pos)
+        pos = get_neighbour(cells_pos[-1], grid, rows)
         node = grid[pos[0]][pos[1]]
-        node.reset()
-        cells.append(node)
+        if not node.is_empty():
+            print("A")
+            node.reset()
+            cells_pos.append(pos)
+            continue
+        cells_pos.pop()
 
     return(grid)
 
 
-def get_neighbour(pos):
-    pass
+def get_neighbour(pos, grid, rows):
+    key = random.randint(1, 4)
+    old_key = int(str(key))
+    added = False
+    while True:
+        print(key)
+        if (key == 1 and pos[1] > 2 and
+                not grid[pos[0]][pos[1]-2].is_empty()):
+            return((pos[0], pos[1]-2))
+        elif (key == 2 and pos[0] < rows-3 and
+              not grid[pos[0]+2][pos[1]].is_empty()):
+            return((pos[0]+2, pos[1]))
+        elif (key == 3 and pos[1] < rows-3 and
+              not grid[pos[0]][pos[1]+2].is_empty()):
+            return((pos[0], pos[1]+2))
+        elif (key == 4 and pos[0] > 2 and
+              not grid[pos[0]-2][pos[1]].is_empty()):
+            return((pos[0]-2, pos[1]))
+        if key < 5:
+            key += 1
+            added = True
+        else:
+            key = 1
+        if key == old_key and added:
+            return(pos)
