@@ -1,22 +1,15 @@
 import pygame
 from node import Node
 from a_star import a_star_algorithm
+from generate_maze import generate_maze
 
 SIZE = 1000
 ROWS = 50
 WINDOW = pygame.display.set_mode((SIZE, SIZE))
 pygame.display.set_caption("Maze solver")
 
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 255, 0)
-YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-PURPLE = (128, 0, 128)
-ORANGE = (255, 165, 0)
 GREY = (128, 128, 128)
-TURQUOISE = (64, 224, 208)
 
 
 def generate_grid(rows, size):
@@ -58,8 +51,7 @@ def click_cube(position, rows, size):
     return row, column
 
 
-def main(window, size, rows):
-    grid = generate_grid(rows, size)
+def main(window, grid, size, rows):
 
     start = None
     end = None
@@ -113,8 +105,11 @@ def main(window, size, rows):
                     end = None
                     grid = generate_grid(rows, size)
 
+                if event.key == pygame.K_g:
+                    grid = generate_maze(grid, rows, size)
     pygame.quit()
 
 
 if __name__ == "__main__":
-    main(WINDOW, SIZE, ROWS)
+    GRID = generate_grid(ROWS, SIZE)
+    main(WINDOW, GRID, SIZE, ROWS)
