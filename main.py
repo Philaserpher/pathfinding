@@ -4,7 +4,7 @@ from a_star import a_star_algorithm
 from generate_maze import generate_maze
 
 SIZE = 1000
-ROWS = 50
+ROWS = 100
 WINDOW = pygame.display.set_mode((SIZE, SIZE))
 pygame.display.set_caption("Maze solver")
 
@@ -106,7 +106,7 @@ def main(window, grid, size, rows):
                     grid = generate_grid(rows, size)
 
                 if event.key == pygame.K_g:
-                    grid = generate_maze(grid, rows, size)
+                    grid, start, end = generate_maze(window, grid, rows, size)
     pygame.quit()
 
 
