@@ -16,15 +16,16 @@ class Node:
     def __init__(self, row, col, width, total_rows):
         self.row = row
         self.col = col
-        self.x_position = row*width
-        self.y_position = col*width
+        self.x_position = row*width  # absolute x position in window
+        self.y_position = col*width  # absolute y position in window
         self.width = width
         self.total_rows = total_rows
-        self.colour = WHITE
+        self.colour = WHITE  # by default it is an empty node
         self.neighbours = []
 
     def get_position(self):
         return self.row, self.col
+    # all of the following check for the type of node
 
     def is_visited(self):
         return self.colour == RED
@@ -43,6 +44,7 @@ class Node:
 
     def is_empty(self):
         return self.colour == WHITE
+    #  all of the following set the type of node
 
     def reset(self):
         self.colour = WHITE
@@ -65,10 +67,14 @@ class Node:
     def set_wall(self):
         self.colour = BLACK
 
+    #  draws node
+
     def draw(self, window):
         pygame.draw.rect(window, self.colour,
                          (self.x_position, self.y_position,
                           self.width, self.width))
+
+    #  gets all the neighbours for the node (used for A*)
 
     def update_neighbours(self, grid):
         self.neighbours = []

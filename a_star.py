@@ -1,8 +1,14 @@
 from queue import PriorityQueue
 import pygame
 
+# based on https://www.youtube.com/watch?v=JtiK0DOeI4A
 
-def heuristic(point, target):
+# define the heuristic function, which is used to determine how far away from
+# the end a node is
+# in this case using Manhattan distance (abs(delta x) + abs(delta y))
+
+
+def heuristic(point, target):  # define the heuristic function
     return abs(point[0]-target[0]) + abs(point[1] - target[1])
 
 
@@ -50,6 +56,8 @@ def a_star_algorithm(draw, grid, start, end):
             current.set_visited()
 
     return False
+
+# once a path is found, we build it by marking every node in visited as path
 
 
 def build_path(visited, current, draw):
