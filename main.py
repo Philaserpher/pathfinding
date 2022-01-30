@@ -106,7 +106,7 @@ def main(window, grid, size, rows):
                     grid = generate_grid(rows, size)
 
                 if event.key == pygame.K_g:
-                    grid, start, end = generate_maze(window, grid, rows, size)
+                    grid, start, end = generate_maze(grid, rows)
     pygame.quit()
 
 
