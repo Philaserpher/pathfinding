@@ -4,7 +4,7 @@ from a_star import a_star_algorithm
 from generate_maze import generate_maze
 
 SIZE = 1000
-ROWS = 100
+ROWS = 50
 WINDOW = pygame.display.set_mode((SIZE, SIZE))
 pygame.display.set_caption("Maze solver")
 
@@ -58,6 +58,7 @@ def main(window, grid, size, rows):
 
     run = True
     started = False
+    step_drawings = True
 
     while run:
         draw(window, grid, rows, size)
@@ -91,6 +92,8 @@ def main(window, grid, size, rows):
                 elif node == end:
                     end = None
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_f:
+                    step_drawings = not step_drawings
                 if (event.key == pygame.K_SPACE
                         and not started and start and end):
                     for row in grid:
@@ -98,7 +101,7 @@ def main(window, grid, size, rows):
                             node.update_neighbours(grid)
 
                     a_star_algorithm(lambda: draw(window, grid, rows, size),
-                                     grid, start, end)
+                                     grid, start, end, step_drawings)
 
                 if event.key == pygame.K_c:
                     start = None

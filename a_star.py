@@ -12,7 +12,7 @@ def heuristic(point, target):  # define the heuristic function
     return abs(point[0]-target[0]) + abs(point[1] - target[1])
 
 
-def a_star_algorithm(draw, grid, start, end):
+def a_star_algorithm(draw, grid, start, end, step_drawings):
     count = 0
     open_set = PriorityQueue()
     open_set.put((0, count, start))
@@ -33,7 +33,7 @@ def a_star_algorithm(draw, grid, start, end):
         open_set_hash.remove(current)
 
         if current == end:
-            build_path(previous_node, end, draw)
+            build_path(previous_node, end, draw, step_drawings)
             start.set_start()
             end.set_end()
             return True
@@ -51,7 +51,9 @@ def a_star_algorithm(draw, grid, start, end):
                     open_set.put((total_cost[neighbour], count, neighbour))
                     open_set_hash.add(neighbour)
                     neighbour.set_open()  # open = discovered
-        draw()
+
+        if step_drawings:
+            draw()
         if current != start:
             current.set_visited()
 
@@ -60,8 +62,9 @@ def a_star_algorithm(draw, grid, start, end):
 # once a path is found, we build it by marking every node in visited as path
 
 
-def build_path(visited, current, draw):
+def build_path(visited, current, draw, step_drawings):
     while current in visited:
         current = visited[current]
         current.set_path()
-        draw()
+        if step_drawings:
+            draw()
