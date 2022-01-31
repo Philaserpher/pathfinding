@@ -38,19 +38,13 @@ def generate_maze(grid, rows):
 
 
 def get_neighbour(pos, grid, rows):  # used to randomly select neighbours
-    key = random.randint(1, 4)
-    old_key = int(str(key))  # quick way to make a copy
-    added = False  # pointer to check that we have looped around
+    sides_left = 3
+    sides = [1, 2, 3, 4]
+    key = random.randint(0, sides_left)
 
     while True:
-        # for all of the following if statements we use the random number to
-        # choose a direction, and check that the cell in that direction is
-        # empty and that we're not at the edge. If such node does not exist,
-        # we add one to our key to try the next direction (not true random
-        # in case of hugging an edge, but good enough for now)
-        # when a valid cell is found, we empty the wall between the cells and
-        # return the position of the new cell, otherwise return the same pos
 
+        key = sides[key]
         if (key == 1 and pos[1] > 2 and
                 not grid[pos[0]][pos[1]-2].is_empty()):
             grid[pos[0]][pos[1]-1].reset()
@@ -67,11 +61,8 @@ def get_neighbour(pos, grid, rows):  # used to randomly select neighbours
               not grid[pos[0]-2][pos[1]].is_empty()):
             grid[pos[0]-1][pos[1]].reset()
             return((pos[0]-2, pos[1]))
-
-        if key < 5:
-            key += 1
-            added = True
-        else:
-            key = 1
-        if key == old_key and added:
-            return(pos)
+        sides.remove(key)
+        if not sides:
+            return pos
+        sides_left -= 1
+        key = random.randint(0, sides_left)

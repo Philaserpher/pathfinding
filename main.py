@@ -4,7 +4,7 @@ from a_star import a_star_algorithm
 from generate_maze import generate_maze
 
 SIZE = 1000
-ROWS = 50
+ROWS = 100
 WINDOW = pygame.display.set_mode((SIZE, SIZE))
 pygame.display.set_caption("Maze solver")
 
